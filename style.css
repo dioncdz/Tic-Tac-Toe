@@ -11,17 +11,19 @@ body {
    align-items: center;
    justify-content: center;
    height: 100vh;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .board {
    display: grid;
    grid-template-columns: repeat(3, 100px);
+   border:  10px outset grey;
 }
 
 .cell {
    width: 100px;
    height: 100px;
-   background: lightcyan;
+   /* background: lightcyan; */
    border: 1px solid black;
    position: relative;
 }
@@ -34,7 +36,6 @@ body {
    background: rgba(0, 0, 0, 0.05);
    cursor: pointer;
 }
-
 
 /* FOR THE X */
 .cell.x::before {
@@ -76,4 +77,37 @@ body {
 .new-game {
    position: fixed;
    z-index: 2;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: rgba(0, 0, 0, 0.9);
+   display: none;
+   /* display: flex; */
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.new-game .restart {
+   padding: 5px 10px;
+   border-radius: 10px;
+   border: 2px solid black;
+   cursor: pointer;
+   background: linear-gradient(to bottom, #f7f7f7, #333);
+   font-size: 2rem;
+   margin-top: 1rem;
+}
+
+.new-game .restart:focus {
+   outline: none;
+}
+
+.new-game .restart:active {
+   transform: translateY(1px);
+   opacity: 0.8;
+}
+
+.new-game.show {
+   display: flex;
 }
