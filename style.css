@@ -1,0 +1,79 @@
+*,
+*::before,
+*::after {
+   padding: 0;
+   margin: 0;
+   box-sizing: border-box;
+}
+
+body {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+}
+
+.board {
+   display: grid;
+   grid-template-columns: repeat(3, 100px);
+}
+
+.cell {
+   width: 100px;
+   height: 100px;
+   background: lightcyan;
+   border: 1px solid black;
+   position: relative;
+}
+
+.cell.x:hover, 
+.cell.circle:hover{
+   cursor: not-allowed;
+}
+.cell:hover:not(.circle):not(.x) {
+   background: rgba(0, 0, 0, 0.05);
+   cursor: pointer;
+}
+
+
+/* FOR THE X */
+.cell.x::before {
+   content: '';
+   height: 90%;
+   width: 15%;
+   background: #000;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%) rotate(45deg);
+}
+.cell.x::after {
+   content: '';
+   height: 90%;
+   width: 15%;
+   background: #000;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* FOR THE CIRCLE */
+
+.cell.circle::before {
+   content: '';
+   height: 85%;
+   width: 85%;
+   background: #fff;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   border: 12px solid #000;
+   border-radius: 50%;
+   transform: translate(-50%, -50%)
+}
+
+.new-game {
+   position: fixed;
+   z-index: 2;
+}
