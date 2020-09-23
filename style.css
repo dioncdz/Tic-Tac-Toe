@@ -89,6 +89,11 @@ body {
    align-items: center;
 }
 
+.new-game .result {
+   color: white;   
+   font-size: 2rem;
+}
+
 .new-game .restart {
    padding: 5px 10px;
    border-radius: 10px;
