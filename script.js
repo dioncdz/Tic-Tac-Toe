@@ -77,15 +77,16 @@
          declareWinner(player)
       }
    
-      // If board is full and no winner === DRAW
-      if([...cells].every(cell => {return cell.classList.length > 1})) {
+      // If board is full and game not over === DRAW
+      if([...cells].every(cell => {return cell.classList.length > 1}) &&
+      isGameOver == false) {
          declareDraw()
       }
    
    }
    
    function playerMark(e) {
-   
+      
       if(e.target.classList.length === 1) {
          if(currentPlayer) {
             e.target.classList.add('circle')
@@ -97,6 +98,7 @@
 
          currentPlayer = !currentPlayer;
 
+         // TODO: Make this code better
          if([...cells].some(cell => {return cell.classList.length < 2}) && isGameOver == false) {
 
             if(isVSComputer) {
@@ -110,8 +112,6 @@
                while ([...cells][compMark].classList.length !== 1){
                   compMark = compPick();
                }
-               // if([...cells].every(cell => {return cell.classList.length < 2})) {
-               // }
    
                if(currentPlayer) {
                   [...cells][compMark].classList.add('circle')
@@ -119,7 +119,6 @@
                   [...cells][compMark].classList.add('x')
                }
    
-               // remove comment once done wth func
                checkWinner(currentPlayer);
                currentPlayer = !currentPlayer ;
             }
