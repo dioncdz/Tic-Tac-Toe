@@ -1,11 +1,14 @@
 
-let setBoard = (function() {
+// let setBoard = (function() {
    // ELEMENTS
    const cells = document.querySelectorAll('[data-cell]');
    const restartButton = document.querySelector('.restart');
    const newGame = document.querySelector('.new-game');
+   let againstComp = document.querySelector('#vs-computer');
    let winner = document.querySelector('.result')
    let currentPlayer = true;
+   let isVSComputer;
+   let isGameOver = false;
    
    const winningCombos = [
       [0, 1, 2],
@@ -25,20 +28,32 @@ let setBoard = (function() {
          el.classList.remove('circle');
          newGame.classList.remove('show')
       })
+
+      if(againstComp.checked) {
+         isVSComputer = true;
+      } else {
+         isVSComputer = false;
+      }
+
+      isGameOver = false;
+      currentPlayer = true;
+
+      console.log(isVSComputer);
    }
    
    function startGame() {
       newGame.classList.add('show')
-      // TODO: create a computer opponent
    }
    
    function declareWinner(player) {
-      winner.textContent = player.toUpperCase() + ' is the winner!'
+      winner.textContent = player.toUpperCase() + ' is the winner!';
+      isGameOver = true;
       startGame()
    }
    
    function declareDraw() {
       winner.textContent = "It's a draw!"
+      isGameOver = true;
       startGame()
    }
    
@@ -79,7 +94,36 @@ let setBoard = (function() {
          }
    
          checkWinner(currentPlayer);
+
          currentPlayer = !currentPlayer;
+
+         if([...cells].some(cell => {return cell.classList.length < 2}) && isGameOver == false) {
+
+            if(isVSComputer) {
+   
+               function compPick() {
+                  return Math.floor(Math.random() * 9)
+               }
+   
+               let compMark = compPick();
+   
+               while ([...cells][compMark].classList.length !== 1){
+                  compMark = compPick();
+               }
+               // if([...cells].every(cell => {return cell.classList.length < 2})) {
+               // }
+   
+               if(currentPlayer) {
+                  [...cells][compMark].classList.add('circle')
+               } else {
+                  [...cells][compMark].classList.add('x')
+               }
+   
+               // remove comment once done wth func
+               checkWinner(currentPlayer);
+               currentPlayer = !currentPlayer ;
+            }
+         }
       }
    
    }
@@ -91,8 +135,9 @@ let setBoard = (function() {
       el.addEventListener('click', playerMark)
    })
 
-   return {startGame};
-})()
+   // return {startGame};
+// })()
 
-setBoard.startGame()
+startGame()
+// setBoard.startGame()
 

@@ -116,3 +116,8 @@ body {
 .new-game.show {
    display: flex;
 }
+
+ul {
+   color: white;
+   list-style: none;
+}
