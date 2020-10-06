@@ -8,6 +8,7 @@
    let winner = document.querySelector('.result')
    let currentPlayer = true;
    let isVSComputer = false;
+   let isCompTurn = false;
    let isGameOver;
    
    const winningCombos = [
@@ -91,31 +92,31 @@
    }
    
    function compTurn() {
+      isCompTurn == true;
+      function compPick() {
+         return Math.floor(Math.random() * 9)
+      }
 
-         function compPick() {
-            return Math.floor(Math.random() * 9)
-         }
+      let compMark = compPick();
 
-         let compMark = compPick();
+      while ([...cells][compMark].classList.length !== 1){
+         compMark = compPick();
+      }
 
-         while ([...cells][compMark].classList.length !== 1){
-            compMark = compPick();
-         }
+      if(currentPlayer) {
+         [...cells][compMark].classList.add('circle')
+      } else {
+         [...cells][compMark].classList.add('x')
+      }
 
-         if(currentPlayer) {
-            [...cells][compMark].classList.add('circle')
-         } else {
-            [...cells][compMark].classList.add('x')
-         }
-
-         checkWinner(currentPlayer);
-         currentPlayer = !currentPlayer ;
-      
+      checkWinner(currentPlayer);
+      currentPlayer = !currentPlayer ;
+      isCompTurn = false;
    }
 
+
    function playerMark(e) {
-      
-      if(e.target.classList.length === 1) {
+      if(e.target.classList.length === 1 && isCompTurn == false) {
          if(currentPlayer) {
             e.target.classList.add('circle')
          } else {
@@ -124,21 +125,24 @@
    
          checkWinner(currentPlayer);
          currentPlayer = !currentPlayer;
-
-         if( isVSComputer && isGameOver == false) {
-            setTimeout(compTurn, 1000)
-         }
-         
       }
+
+      if(isVSComputer && isGameOver == false) {
+         isCompTurn = true;
+         setTimeout(compTurn, 1000)
+      }
+      
    
    }
 
    // EVENT LISTENERS
    restartButton.addEventListener('click', init)
    
+
    cells.forEach(el => {
       el.addEventListener('click', playerMark)
    })
+
 
    // return {startGame};
 // })()
