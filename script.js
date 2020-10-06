@@ -7,8 +7,8 @@
    let againstComp = document.querySelector('#vs-computer');
    let winner = document.querySelector('.result')
    let currentPlayer = true;
-   let isVSComputer;
-   let isGameOver = false;
+   let isVSComputer = false;
+   let isGameOver;
    
    const winningCombos = [
       [0, 1, 2],
@@ -31,14 +31,11 @@
 
       if(againstComp.checked) {
          isVSComputer = true;
-      } else {
-         isVSComputer = false;
-      }
+      } 
 
       isGameOver = false;
       currentPlayer = true;
 
-      console.log(isVSComputer);
    }
    
    function startGame() {
@@ -59,32 +56,63 @@
    
    function checkWinner(playerTurn) {
       let player;
+      // let winningCombo = []
    
       if(playerTurn) {
          player = 'circle';
       } else {
          player = 'x';
       }
-   
+      
+      // Returns true if a winning combo has been hit
       let isWinner = winningCombos.some(combination => {
          return combination.every(index => {
+            // winningCombo = combination;
             return [...cells][index].classList.contains(player)
          })
       })
    
       // If there's a winner declare a winner
       if (isWinner) {
+         // for(let i =0; i < winningCombo.length; i++) {
+         //    [...cells][winningCombo[i]].style.background = 'grey'
+         // }
          declareWinner(player)
       }
    
       // If board is full and game not over === DRAW
-      if([...cells].every(cell => {return cell.classList.length > 1}) &&
-      isGameOver == false) {
+      if(
+         [...cells].every(cell => {return cell.classList.length > 1}) 
+         && isGameOver == false
+         ) {
          declareDraw()
       }
    
    }
    
+   function compTurn() {
+
+         function compPick() {
+            return Math.floor(Math.random() * 9)
+         }
+
+         let compMark = compPick();
+
+         while ([...cells][compMark].classList.length !== 1){
+            compMark = compPick();
+         }
+
+         if(currentPlayer) {
+            [...cells][compMark].classList.add('circle')
+         } else {
+            [...cells][compMark].classList.add('x')
+         }
+
+         checkWinner(currentPlayer);
+         currentPlayer = !currentPlayer ;
+      
+   }
+
    function playerMark(e) {
       
       if(e.target.classList.length === 1) {
@@ -95,34 +123,12 @@
          }
    
          checkWinner(currentPlayer);
-
          currentPlayer = !currentPlayer;
 
-         // TODO: Make this code better
-         if([...cells].some(cell => {return cell.classList.length < 2}) && isGameOver == false) {
-
-            if(isVSComputer) {
-   
-               function compPick() {
-                  return Math.floor(Math.random() * 9)
-               }
-   
-               let compMark = compPick();
-   
-               while ([...cells][compMark].classList.length !== 1){
-                  compMark = compPick();
-               }
-   
-               if(currentPlayer) {
-                  [...cells][compMark].classList.add('circle')
-               } else {
-                  [...cells][compMark].classList.add('x')
-               }
-   
-               checkWinner(currentPlayer);
-               currentPlayer = !currentPlayer ;
-            }
+         if( isVSComputer && isGameOver == false) {
+            setTimeout(compTurn, 1000)
          }
+         
       }
    
    }
